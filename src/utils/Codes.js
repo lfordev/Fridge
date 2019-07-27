@@ -1,0 +1,8 @@
+const CODES = {
+    ALREADY_EXISTS : 'ALREADY_EXISTS',
+    REGISTER : 'REGISTER',
+    NOT_EXISTS : 'NOT_EXISTS',
+    LOGIN : 'LOGIN',
+}
+
+export default CODES
