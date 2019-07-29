@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 
-export default class Loading extends React.Component {
+const Loading = ({ navigation }) => {
+  useEffect(() => {
+      navigation.navigate('Home')
+  }, [])
 
-  componentDidMount() {
-      this.props.navigation.navigate('Home')
-  }
-
-  render() {
     return (
       <View style={styles.container}>
         <Text>Loading</Text>
@@ -15,7 +13,6 @@ export default class Loading extends React.Component {
       </View>
     )
   }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -24,3 +21,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 })
+
+export default Loading

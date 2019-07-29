@@ -5,7 +5,7 @@ import { Item, Label, Input } from 'native-base'
 import Colors from '../utils/Colors'
 import Codes from '../utils/Codes'
 
-const Login = () => {
+const Login = ({ navigation }) => {
 
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
@@ -20,7 +20,7 @@ const Login = () => {
   }
 
   const handleNavigateToRegister = () => {
-    this.props.navigation.navigate('Register')
+    navigation.navigate('Register')
   }
 
   const handleLogin = () => {
@@ -45,7 +45,7 @@ const Login = () => {
             }
             if(res.message === Codes.LOGIN)
             {
-                this.props.navigation.navigate('Home')
+                navigation.navigate('Home')
             }
         })
       }

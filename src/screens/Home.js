@@ -1,61 +1,48 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity, Image, Text, View, TextInput, FlatList } from 'react-native'
+import { StyleSheet, Text, View, FlatList } from 'react-native'
+
+import CardItem from '../components/CardItem'
 
 const data = [
   {
-    name : "holis",
+    name : "Alfajores",
+    amount: "3"
   },
   {
-    name : "holis",
+    name : "Leche",
+    amount: "1"
   },
   {
-    name : "holis",
+    name : "Nesquik",
+    amount: "6"
   },
   {
-    name : "holis",
+    name : "Parmesano",
+    amount: "3"
   },
   {
-    name : "holis",
+    name : "Oreos",
+    amount: "19"
   },
 ]
 
-export default class Main extends React.Component {
-
-  componentDidMount() {
-        
+const Main = () => {
+  const renderCardItem = ({ item }) => {
+    return <CardItem name={item.name} amount={item.amount} />
   }
-
-  renderData(item){
-    return (
-      <View style={styles.itemListContainer}>
-        <Text>{item.name}</Text>
-      </View>
-    )
-  }
-
-  render() {
     return (
       <View style={styles.container}>
         <FlatList
           data={data}
-          renderItem={({item}) => this.renderData(item)}
+          renderItem={renderCardItem}
         />
-        
       </View>
     )
   }
-}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
   },
-
-  itemListContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  }
 })
+
+export default Main

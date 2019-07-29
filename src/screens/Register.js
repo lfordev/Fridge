@@ -1,17 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, View, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { Item, Label, Input } from 'native-base'
 
 import Colors from '../utils/Colors'
 import Codes from '../utils/Codes'
 
-export default class SignUp extends React.Component {
+const Register = () =>  {
+  const [ name, setName ] = useState('')
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ repeatedPassword, setRepeatedPassword ] = useState('')
+  const [ errorMessage, setErrorMessage ] = useState(null)
 
-  state = { email: '', password: '', repeatedPassword: '', errorMessage: null }
-
-  handleSignUp = () => {
-    const {email, password, repeatedPassword, name} = this.state
-
+  const handleSignUp = ({ navigation }) => {
     if(email !== '' && password !== '' && name !== '' && password === repeatedPassword)
     {
       fetch('https://fridge-api-rest.herokuapp.com/api/register', {
@@ -30,21 +31,36 @@ export default class SignUp extends React.Component {
       .then(res => {
           if(res.message === Codes.ALREADY_EXISTS)
           {
-              this.setState({errorMessage : 'Debe ingresar un mail valido'})
+              setErrorMessage('Debe ingresar un mail valido')
           }
           if(res.message === Codes.REGISTER)
           {
-              this.props.navigation.navigate('Home')
+              navigation.navigate('Home')
           }
       })
     }
     else
     {
-        this.setState({errorMessage : 'Debe completar todos lo campos de forma correcta'})
+        setErrorMessage('Debe completar todos lo campos de forma correcta')
     }
   }
 
-  render() {
+  const handleChangeEmail = email => {
+    setEmail(email)
+  }
+
+  const handleChangeName = name => {
+    setName(name)
+  }
+
+  const handleChangePassword = password => {
+    setPassword(password)
+  }
+
+  const handleChangeRepeatedPassword = repeatedPassword => {
+    setRepeatedPassword(repeatedPassword)
+  }
+
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.titleContainer}>
@@ -54,41 +70,40 @@ export default class SignUp extends React.Component {
           <Item floatingLabel>
             <Label>Email</Label>
             <Input
-              onChangeText={email => this.setState({ email })}
-              value={this.state.email} />
+              onChangeText={handleChangeEmail}
+              value={email} />
           </Item>
           <Item floatingLabel style={{ marginTop: 5 }}>
             <Label>Nombre</Label>
             <Input
-              onChangeText={name => this.setState({ name })}
-              value={this.state.name} />
+              onChangeText={handleChangeName}
+              value={name} />
           </Item>
           <Item floatingLabel style={{ marginTop: 5 }}>
             <Label>Contrasena</Label>
             <Input
-              onChangeText={password => this.setState({ password })}
-              value={this.state.password} />
+              onChangeText={handleChangePassword}
+              value={password} />
           </Item>
           <Item floatingLabel style={{ marginTop: 5 }}>
             <Label>Repetir contrasena</Label>
             <Input
-              onChangeText={repeatedPassword => this.setState({ repeatedPassword })}
-              value={this.state.repeatedPassword} />
+              onChangeText={handleChangeRepeatedPassword}
+              value={repeatedPassword} />
           </Item>
         </View>
         <View style={styles.actionContainer}>
-          <TouchableOpacity onPress={this.handleSignUp} style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleSignUp} style={styles.buttonContainer}>
             <Label style={styles.buttonText}>Registarse</Label>
           </TouchableOpacity>
-          {this.state.errorMessage &&
+          {errorMessage &&
             <Label style={{ color: 'red' }}>
-              {this.state.errorMessage}
+              {errorMessage}
             </Label>}
         </View>
       </KeyboardAvoidingView>
     )
   }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -140,3 +155,5 @@ const styles = StyleSheet.create({
     color: Colors.VIOLET
   },
 })
+
+export default Register
